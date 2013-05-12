@@ -40,10 +40,18 @@ public class BPlusTreeLeafNode extends BPlusTreeNode{
   }
 
   public int getMaxNumRecordsOnBlock(){
-  // IMPLEMENT
+	  // IMPLEMENT
 	  //TODO
-  assert(false);
-    return -1;
+	  
+	  //Leaf Node consists of values and pointers to previous and next node
+	  
+	  assert(false);
+  	
+	  int sizeFixed = offset_data() + MiniDB_Constants.BLK_ID_SIZE;
+	  int sizeForRecords = MiniDB_Constants.BLOCK_SIZE - sizeFixed;
+	  int maxNumRecords = (int)Math.floor(sizeForRecords / bpt.get_indexRecordSize());
+  
+    return maxNumRecords;
   }
 
   public long getValue( int slotID ){
