@@ -21,10 +21,6 @@ public abstract class BPlusTreeNode extends MiniDB_Block{
 
   // return true if there is room for another (value,block) index record, and false otherwise.
   public final boolean hasRoomForAnotherRecord(){
-	  //TODO
-	 // assert(false);
-    
-    //has room if max number of records - size of 1 record is > current number of records on block
     return (getMaxNumRecordsOnBlock() > getCurrNumRecordsOnBlock()); 
   }
 
@@ -72,10 +68,6 @@ public abstract class BPlusTreeNode extends MiniDB_Block{
    * number of currently occupied slots.
    */
   public int getSlotForValue(long value){
-    // IMPLEMENT
-	  //TODO
-    //assert(false);
-	  
 	  for (int i = 0; i < getCurrNumRecordsOnBlock(); ++i) {
 		  if (getValue(i) >= value) {
 			  return i;
