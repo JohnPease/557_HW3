@@ -109,7 +109,19 @@ public class BPlusTree{
     // Implement.
     //
 	  //TODO
-    assert(false);
+    //assert(false);
+	  int leafBlockIDs[] = getLeafBlockIDs();
+	    
+	  for (int i=0; i<leafBlockIDs.length; i++){
+	      boolean isNewNode = false;
+	      BPlusTreeLeafNode leaf = new BPlusTreeLeafNode( miniDB.bufMgr.pin_block(leafBlockIDs[i]), this, isNewNode );
+	
+	      for (int j = 0; j < leaf.getCurrNumRecordsOnBlock(); ++j) {
+	    	  vBlockIDsOut.add(leaf.getBlockID(j));
+	    	  vValuesOut.add(leaf.getValue(j));
+	      }
+      }
+	  
   }
 
   public int lookup( long value ) throws MiniDB_Exception{
@@ -118,7 +130,18 @@ public class BPlusTree{
      // Implement. Hint: use getPathForValue()
      //
 	  //TODO
-    assert(false);
+     Vector<Integer> vBlockIDsOut = new Vector<Integer>();
+     Vector<Long> vValuesOut = new Vector<Long>();
+     
+     getAll(vValuesOut, vBlockIDsOut);
+     
+     for (int i = 0; i < vValuesOut.size(); ++i) {
+    	 if (vValuesOut.get(i) == value) {
+    		 return vBlockIDsOut.get(i);
+    	 }
+     }
+     
+    //assert(false);
     return blkID;
   }
 

@@ -95,11 +95,36 @@ public class BPlusTreeInternalNode extends BPlusTreeNode{
 
     BPlusTreeInternalNode newNode = null;
 
-    // IMPLEMENT
-	  //TODO
-    assert(false);
+    int newBlockID = bpt.miniDB.addBlockToDB();
+    int pivotSlot = (int)Math.floor( getCurrNumRecordsOnBlock() / 2 );
+    
+    if( newBlockID != -1 ){
+        MiniDB_Block blk = bpt.miniDB.bufMgr.pin_block(newBlockID);
+        boolean isNewNode = true;
+        newNode = new BPlusTreeInternalNode(blk, this.bpt, isNewNode);
+        //newNode.setNextLeafBlockID(this.getNextLeafBlockID());
+        //this.setNextLeafBlockID(newBlockID);
+        //newNode.writeInt(offset_data() + getCurrNumRecordsOnBlock(), newBlockID);
 
-    return newNode;
+        int numSlotsToMove = (getCurrNumRecordsOnBlock() - pivotSlot);
+        int copySize = numSlotsToMove * bpt.get_indexRecordSize() + MiniDB_Constants.BLK_ID_SIZE;
+
+        //System.arraycopy(this.buffer, offset_valueSlot(pivotSlot), newNode.buffer, offset_data(), copySize );
+        System.arraycopy(this.buffer, offset_forChildBlock(pivotSlot), newNode.buffer, offset_data(), copySize );
+        
+        this.setCurrNumRecordsOnBlock(getCurrNumRecordsOnBlock()-numSlotsToMove);
+        newNode.setCurrNumRecordsOnBlock(numSlotsToMove);
+        
+        this.pushedUpValue = getValue(0);
+      }
+
+      //System.out.println( "After leaf split\n" );
+      //System.out.println( "Left:\n" + this.toString() );
+      //System.out.println( "Right:\n" + newNode.toString() );
+      //MiniDB_Util.waitHere( "After Split" );
+
+      System.out.println( " leaf split " + bpt.miniDB.numBlocksInDB() );
+      return newNode;
   }
 
   /** return the current number of children for this node */

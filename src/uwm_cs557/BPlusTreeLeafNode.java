@@ -22,21 +22,27 @@ public class BPlusTreeLeafNode extends BPlusTreeNode{
   public int offset_nextLeafBlockID(){ 
      // IMPLEMENT
 	  //TODO
-     assert(false);
-     return -1;
+     //assert(false);
+	  
+	  //get the value in offset_data - the block id size
+	  return offset_data() - MiniDB_Constants.BLK_ID_SIZE;
    }
 
   public void setNextLeafBlockID(int nextBlockID){ 
     // IMPLEMENT
 	  //TODO
-    assert(false);
+	  
+	  int loc = offset_nextLeafBlockID();
+	  writeInt(loc, nextBlockID);
+    //assert(false);
   }
 
   public int getNextLeafBlockID(){ 
     // IMPLEMENT
 	  //TODO
-    assert(false);
-     return -1;
+    //assert(false);
+	  
+     return readInt(offset_nextLeafBlockID());
   }
 
   public int getMaxNumRecordsOnBlock(){
@@ -45,13 +51,14 @@ public class BPlusTreeLeafNode extends BPlusTreeNode{
 	  
 	  //Leaf Node consists of values and pointers to previous and next node
 	  
-	  assert(false);
+	  //assert(false);
   	
-	  int sizeFixed = offset_data() + MiniDB_Constants.BLK_ID_SIZE;
+	  int sizeFixed = offset_data();
 	  int sizeForRecords = MiniDB_Constants.BLOCK_SIZE - sizeFixed;
+	  
 	  int maxNumRecords = (int)Math.floor(sizeForRecords / bpt.get_indexRecordSize());
   
-    return maxNumRecords;
+	  return maxNumRecords;
   }
 
   public long getValue( int slotID ){

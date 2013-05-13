@@ -30,7 +30,7 @@ public class MiniDB_grade{
     for (int i=1; i<=NUM_TESTS; i++){
       maxTotal += maxByTest[i];
     }
-    maxTotal -= maxByTest[7]; // extra credit
+    //maxTotal -= maxByTest[7]; // extra credit
   }
 
   MiniDB_grade(){
@@ -579,7 +579,7 @@ public class MiniDB_grade{
 
       System.out.println( "\nSUMMARY" );
       for (int i=1; i<=NUM_TESTS; i++){
-	if( i == NUM_TESTS ) System.out.println( "Extra Credit" );
+	//if( i == NUM_TESTS ) System.out.println( "Extra Credit" );
 	System.out.println( " Test" + i + "... " + pointsByTest[i] + " of " + maxByTest[i] );
       }
       System.out.println( " ----------------" );
